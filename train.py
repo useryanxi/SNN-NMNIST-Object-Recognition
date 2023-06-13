@@ -59,6 +59,7 @@ parser.add_argument(
     "--batch-size", help="[NETWORK] batch size", default=64, type=int)
 parser.add_argument("--threshold", help="[Detection] IoU threshold",
                     default=.5, type=float)
+parser.add_argument("--cuda", help="activate cuda", action='store_false')
 
 args = parser.parse_args()
 
@@ -106,8 +107,10 @@ print("Done!")
 
 # Part regarding the network
 
-DEVICE = torch.device(
-    "cuda") if torch.cuda.is_available() else torch.device("cpu")
+if args.cuda:
+    DEVICE = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+else:
+    DEVICE = torch.device("cpu")
 
 print("Model to {}...".format(DEVICE), end=" ")
 
